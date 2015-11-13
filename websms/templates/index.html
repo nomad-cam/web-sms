@@ -45,7 +45,26 @@ Web Interface to SMS dialer
 {% endblock navbar %}
 
 {% block content %}
+
 <div class="custom-content">
+    {% if debug %}
+    <div class="custom-debug">
+    <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Blastoff!</strong>
+            {{ debug }}
+        </div>
+                </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+    {% endif %}
+
     {% if update == False %}
     <form class="form-phone-input" role="form" action="{{ url_for('websms') }}" method="post">
         <div class="row">
@@ -64,8 +83,19 @@ Web Interface to SMS dialer
             <div class="col-lg-4"></div>
         </div>
     </form>
+    {% elif phone %}
+        <h2>{{ phone }} {{ user.name }}</h2>
     {% else %}
-    <h2>{{ phone }}</h2>
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4"><h2 class="text-center">Create new user</h2></div>
+        <div class="col-lg-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">new user data</div>
+        <div class="col-lg-4"></div>
+    </div>
     {% endif %}
 
 </div>
