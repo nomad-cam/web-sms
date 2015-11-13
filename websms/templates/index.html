@@ -83,8 +83,8 @@ Web Interface to SMS dialer
             <div class="col-lg-4"></div>
         </div>
     </form>
-    {% elif phone %}
-        <h2>{{ phone }} {{ user.name }}</h2>
+    {% elif user %}
+        <h2>{{ user.number }} {{ user.name }}</h2>
     {% else %}
     <div class="row">
         <div class="col-lg-4"></div>
@@ -92,9 +92,42 @@ Web Interface to SMS dialer
         <div class="col-lg-4"></div>
     </div>
     <div class="row">
-        <div class="col-lg-4"></div>
-        <div class="col-lg-4">new user data</div>
-        <div class="col-lg-4"></div>
+        <div class="col-lg-5"></div>
+        <div class="col-lg-2">
+            <form class="form-phone-input" role="form" action="{{ url_for('websms') }}" method="post">
+                <input type="hidden" name="new_user" value="True">
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="text" id="phone" name="phone-number" class="form-control input-lg" value="{{ phone }}">
+                </div>
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name" class="form-control input-lg" >
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox">Beam Down
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox">Beam Restored
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox">FSM Message Updates
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox">Science Group Meetings
+                    </label>
+                </div>
+                <button class="btn btn-default btn-lg" type="submit">Save New User</button>
+            </form>
+        </div>
+        <div class="col-lg-5"></div>
     </div>
     {% endif %}
 

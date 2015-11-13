@@ -22,9 +22,10 @@ def websms():
             return render_template('index.html',update=True,phone=phone,user=subscriber,debug=debug)
         else:
             debug = "No user found, create entry"
-            return render_template('index.html',update=True,phone=None,user=None,debug=debug)
+            return render_template('index.html',update=True,phone=phone,user=None,debug=debug)
 
     else:
+        ## Default page display
         return render_template('index.html',update=False,debug=debug)
 
 
