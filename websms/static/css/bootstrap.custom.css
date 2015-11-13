@@ -1,0 +1,45 @@
+.navbar {
+    max-height: 50px;
+    margin-left: 270px;
+}
+
+.navbar .brand {
+    position: absolute;
+    overflow: visible;
+    padding-top: 0;
+    padding-bottom: 0;
+    left: -282px;
+}
+
+.navbar-white{
+    background-color: white;
+    border-color: white;
+}
+
+#rocket-logo {
+    position: fixed;
+    left: 20px;
+    margin-top: 10px;
+    padding-bottom: 30px;
+    height: 100%;
+    width: 200px;
+    /*margin-right: 100px;*/
+}
+
+.input-group-lg>.input-group-addon{
+    top: 0px;
+}
+body .custom-content {
+    padding-left: 220px;
+    /* padding-top: 70px;*/
+}
+
+.form-phone-input{
+    position: fixed;
+    top: 40%;
+    /*left: 50%;
+    width: 500px;
+    height: 50px;
+    margin-top: 25px;
+    margin-left: 250px;*/
+}

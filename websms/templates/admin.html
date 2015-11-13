@@ -1,0 +1,78 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}
+Admin page for SMS dialer
+{% endblock title %}
+
+{% block head %}
+{{ super() }}
+
+    <script src="{{url_for('.static', filename='js/snap.svg-min.js')}}"></script>
+{% endblock head %}
+
+{% block styles %}
+
+    <!-- custom css files -->
+    <link href="{{url_for('.static', filename='css/bootstrap.custom.css')}}" rel="stylesheet">
+    <link rel="shortcut icon" href="{{url_for('.static', filename='img/favicon.png')}}">
+{{ super() }}
+{% endblock styles %}
+
+{% block navbar %}
+<nav role="navigation" class="navbar navbar-white">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
+            <a class="brand" href="/">
+                <!-- <svg id="svg-blastoff" width="100px" viewBox="0 0 100 100" preserveAspectRatio="xMinyMin meet" ></svg> -->
+                <img id="rocket-logo" class="img-responsive" src="{{url_for('.static', filename='img/scifi-rocketblastoff.png')}}">
+            </a>
+
+    </div>
+
+    <!-- Collection of nav links, forms, and other content for toggling -->
+    <div id="navbarCollapse" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="/admin"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
+        </ul>
+    </div>
+</nav>
+{% endblock navbar %}
+
+{% block content %}
+<div class="custom-content">
+<h1>Admin for SMS Dialler</h1>
+    <form class="form-phone-input" role="form">
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon glyphicon glyphicon-pencil" id="phone-glyph"></span>
+                    <input type="text" class="form-control input-lg" placeholder="message...">
+                </div>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon glyphicon glyphicon-earphone" id="phone-glyph"></span>
+                    <input type="text" class="form-control input-lg" >
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-lg" type="button">
+                            Send!
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </form>
+
+</div>
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+
+{% endblock scripts %}
