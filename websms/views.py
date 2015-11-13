@@ -8,13 +8,21 @@ from wtforms import StringField, SelectField, SelectMultipleField, SubmitField
 from wtforms.validators import DataRequired
 
 from websms import app
+from websms.database import db
+from websms.models import AlertsSubscriberData
 
 import ldap
 from datetime import datetime
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def websms():
-    return render_template('index.html')
+    if request.method == 'POST':
+        phone = request.form['phone-number']
+
+        return render_template('index.html',update=True,phone=phone)
+
+    else:
+        return render_template('index.html',update=False)
 
 
 @app.route('/admin/', methods=['GET', 'POST'])

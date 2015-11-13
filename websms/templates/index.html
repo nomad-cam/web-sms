@@ -46,16 +46,16 @@ Web Interface to SMS dialer
 
 {% block content %}
 <div class="custom-content">
-
-    <form class="form-phone-input" role="form">
+    {% if update == False %}
+    <form class="form-phone-input" role="form" action="{{ url_for('websms') }}" method="post">
         <div class="row">
             <div class="col-lg-4"></div>
             <div class="col-lg-4">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon glyphicon glyphicon-earphone" id="phone-glyph"></span>
-                    <input type="text" class="form-control input-lg" >
+                    <input type="text" name="phone-number" class="form-control input-lg" >
                     <span class="input-group-btn">
-                        <button class="btn btn-default btn-lg" type="button">
+                        <button class="btn btn-default btn-lg" type="submit">
                             Go!
                         </button>
                     </span>
@@ -64,6 +64,9 @@ Web Interface to SMS dialer
             <div class="col-lg-4"></div>
         </div>
     </form>
+    {% else %}
+    <h2>{{ phone }}</h2>
+    {% endif %}
 
 </div>
 {% endblock content %}
