@@ -43,3 +43,8 @@ body .custom-content {
     margin-top: 25px;
     margin-left: 250px;*/
 }
+
+.row {
+    /* border: blueviolet solid; */
+    width: 100%;
+}
