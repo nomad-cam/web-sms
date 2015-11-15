@@ -47,19 +47,38 @@ Admin page for SMS dialer
 {% block content %}
 <div class="custom-content">
 <h1 class="text-center">Admin for SMS Dialler</h1>
-    <form class="form-phone-input" role="form">
+    <form  role="form" action="/admin/" method="post">
         <div class="row">
             <div class="col-lg-4"></div>
             <div class="col-lg-4">
+
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon glyphicon glyphicon-pencil" id="phone-glyph"></span>
-                    <input type="text" class="form-control input-lg" placeholder="message...">
+                    <input type="text" class="form-control input-lg" name="message" placeholder="message...">
                 </div>
+                <!-- </div> -->
+
+
+                <select class="form-control form-group-lg" name="message_group">
+                    <option value="None" disabled selected>Select group...</option>
+                    <option value="BD">Beam Down</option>
+                    <option value="BR">Beam Up</option>
+                    <option value="FSM">FSM</option>
+                    <option value="BLAM">BLAM</option>
+                </select>
+
+                <select class="form-control form-group-lg" name="message_user">
+                    <option value="0" disabled selected>Select user...</option>
+                {% for phone in phone_dict %}
+                    <option value="{{ phone.subscriber_id }}">{{ phone.name }}     {{ phone.number }}</option>
+                {% endfor %}
+                </select>
+
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon glyphicon glyphicon-earphone" id="phone-glyph"></span>
-                    <input type="text" class="form-control input-lg" >
+                    <input type="text" class="form-control input-lg" name="phone" placeholder="phone number...">
                     <span class="input-group-btn">
-                        <button class="btn btn-default btn-lg" type="button">
+                        <button class="btn btn-default btn-lg" type="submit">
                             Send!
                         </button>
                     </span>
@@ -68,6 +87,11 @@ Admin page for SMS dialer
             <div class="col-lg-4"></div>
         </div>
     </form>
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4"><h1 class="text-center">Received Requests</h1></div>
+        <div class="col-lg-4"></div>
+    </div>
 
 </div>
 {% endblock content %}

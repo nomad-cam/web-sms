@@ -50,6 +50,8 @@ def websms():
 
             # if the user exists in DB then proceed to update
             if subscriber:
+                if subscriber.subscriber_id == 10:
+                    return render_template('index.html',update=True,phone=phone,user=subscriber,admin=True,debug=debug)
                 return render_template('index.html',update=True,phone=phone,user=subscriber,debug=debug)
             # if the user not exists in DB then proceed to create user
             else:
@@ -202,7 +204,22 @@ def websms():
 
 @app.route('/admin/', methods=['GET', 'POST'])
 def options():
-    return render_template('admin.html')
+    if request.method == 'POST':
+        message = request.form['message'].strip()
+        message_group = request.form['message_group']
+        message_user = request.form['message_user']
+        single_phone = request.form['phone'].strip()
+
+        if message_group == "None" and message_user == "None" and single_phone == '':
+            debug = "I don't know who to send this to... Select a group or enter an individual number"
+            return render_template('admin.html',debug=debug,admin=True,phone_dict=phone_list)
+
+
+
+    phone_list = AlertsSubscriberData.query.filter_by(active = 1).order_by(AlertsSubscriberData.name).all()
+    #subscriber = AlertsSubscriberData.query.filter_by(number = phone).first()
+    debug = ""
+    return render_template('admin.html',debug=debug,admin=True,phone_dict=phone_list)
 
 
 @app.errorhandler(404)
