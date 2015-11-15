@@ -129,10 +129,67 @@ def websms():
                 return render_template('index.html',update=False,debug=debug)
 
         if request.form['state-machine'] == "new":
-            if request.form['submit_select'] == 'test':
-                return "Processing Test Script..."
+            name = request.form['name'].strip()
+            phone = request.form['phone-number'].strip()
+            subscription_ok = request.form.get('subscription_active','')
+            subscription_bd = request.form.get('subscription_bd','')
+            subscription_br = request.form.get('subscription_br','')
+            subscription_fsm = request.form.get('subscription_fsm','')
+            subscription_blam = request.form.get('subscription_blam','')
+
+            # store the form data to repopulate form before saving to DB
+            tmp_data = AlertsSubscriberData(name=name,number=phone)
+            subscription = ""
+
+            if subscription_ok:
+                tmp_data.active = 1
+            if subscription_bd:
+                subscription = subscription + "Beam Down. "
+                tmp_data.alert_on_beam_down = 1
+            if subscription_br:
+                subscription = subscription + "Beam Up. "
+                tmp_data.alert_on_beam_up = 1
+            if subscription_fsm:
+                subscription = subscription + "FSM. "
+                tmp_data.alert_on_fsm = 1
+            if subscription_blam:
+                subscription = subscription + "Science Group. "
+                tmp_data.alert_on_blam = 1
+
+            # validate the phone number and redirect to index page if no good.
+            if not check_phone_number(phone):
+                debug = "Incorrect phone number format, try 04[xxxxxxxx]"
+                return render_template('index.html',update=True,phone=phone,user=tmp_data,debug=debug)
+
+            # validate the phone number and redirect to index page if no good.
+            if not check_name(name):
+                debug = "This doesn't look like a regular name, try [First Last]. Numerals or special chars are not accepted."
+                return render_template('index.html',update=True,phone=phone,user=tmp_data,debug=debug)
+
+            # the test button was selected, prepare and send test SMS
+            if request.form['submit_select'] == "test":
+
+                send_string = "Hello %s, you have requested the following Notification Services: %s" % (name, subscription)
+                #dict_send = {'message': send_string, 'numbers': phone}
+
+                #result = requests.post('http://10.6.100.199:8080?message%s%numbers=%s', data=json.dumps(dict_send))
+                result = requests.post('http://10.6.100.199:8080?message=%s&numbers=%s' % (send_string,phone))
+                #return send_string
+
+                debug = "Check your phone for a txt msg. If not received after a few minutes please contact the Control Room."
+
+                return render_template('index.html',update=True,phone=phone,user=tmp_data,debug=debug)
             else:
-                return "Processing New User..."
+
+                time = datetime.now()
+                # create the user in the DB
+                tmp_data.date_added = time
+
+                db.session.add(tmp_data)
+                db.session.commit()
+
+                debug = "User subscription information has been added to the database"
+                return render_template('index.html',update=False,debug=debug)
 
         else:
             ## if the post request was not delivered from a form, generate error
