@@ -109,25 +109,30 @@ Web Interface to SMS dialer
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="subscription" value="BD" {% if user.alert_on_beam_down %} checked {% endif %}>Beam Down
+                        <input type="checkbox" name="subscription_active" value="OK" {% if user.active %} checked {% endif %}>Activate Subscription
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="subscription" value="BR" {% if user.alert_on_beam_up %} checked {% endif %}>Beam Restored
+                        <input type="checkbox" name="subscription_bd" value="BD" {% if user.alert_on_beam_down %} checked {% endif %}>Beam Down
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="subscription" value="FSM" {% if user.alert_on_fsm %} checked {% endif %}>FSM Message Updates
+                        <input type="checkbox" name="subscription_br" value="BR" {% if user.alert_on_beam_up %} checked {% endif %}>Beam Restored
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="subscription" value="BLAM" {% if user.alert_on_blam %} checked {% endif %}>Science Group Meetings
+                        <input type="checkbox" name="subscription_fsm" value="FSM" {% if user.alert_on_fsm %} checked {% endif %}>FSM Message Updates
                     </label>
                 </div>
-                <button class="btn btn-default btn-lg" type="submit" name="submit_select" value="save">Save New User</button>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="subscription_blam" value="BLAM" {% if user.alert_on_blam %} checked {% endif %}>Science Group Meetings
+                    </label>
+                </div>
+                <button class="btn btn-default btn-lg" type="submit" name="submit_select" value="save">Update User</button>
                 <button class="btn btn-default btn-lg" type="submit" name="submit_select" value="test">Test!</button>
             </form>
         </div>
@@ -154,6 +159,11 @@ Web Interface to SMS dialer
                 <div class="form-group">
                     <label for="name">Your Name:</label>
                     <input type="text" id="name" name="name" class="form-control input-lg" >
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="subscription_active" value="OK" {% if user.active %} checked {% endif %}>Activate Subscription
+                    </label>
                 </div>
                 <div class="checkbox">
                     <label>
