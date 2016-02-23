@@ -2,6 +2,7 @@ from websms import app
 import json
 
 json_data = open('websms/config.json')
+#json_data = open('config.json')
 data = json.load(json_data)
 json_data.close()
 

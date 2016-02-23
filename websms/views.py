@@ -10,8 +10,8 @@ from websms.models import AlertsSubscriberData
 
 import requests
 import re
-import json
-import ldap
+#import json
+#import ldap
 from datetime import datetime
 
 def check_phone_number(number):
