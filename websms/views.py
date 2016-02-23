@@ -204,19 +204,53 @@ def websms():
 
 @app.route('/admin/', methods=['GET', 'POST'])
 def options():
+    phone_list = AlertsSubscriberData.query.filter_by(active = 1).order_by(AlertsSubscriberData.name).all()
     if request.method == 'POST':
-        message = request.form['message'].strip()
-        message_group = request.form['message_group']
-        message_user = request.form['message_user']
-        single_phone = request.form['phone'].strip()
+        message = request.form.get('message','').strip()
+        tmp_group = request.form.get('message_group','')
+        tmp_user = request.form.get('message_user','')
+        if tmp_user != '':
+            message_user = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(subscriber_id = tmp_user).first()
+        single_phone = request.form.get('phone','').strip()
 
-        if message_group == "None" and message_user == "None" and single_phone == '':
+        if tmp_group == "" and tmp_user == "" and single_phone == '':
             debug = "I don't know who to send this to... Select a group or enter an individual number"
             return render_template('admin.html',debug=debug,admin=True,phone_dict=phone_list)
 
+        if single_phone != "":
+            result = requests.post('http://10.6.100.199:8080?message=%s&numbers=%s' % (message,single_phone))
+            #result = ""
+            debug = "Sending single message: '%s' to number: %s " % (message,single_phone)
+            print("Sending single message: '%s' to number: %s with result: %s" % (message,single_phone,result))
+            return render_template('admin.html',debug=debug,admin=True,phone_dict=phone_list)
+
+        if tmp_user != "":
+            result = requests.post('http://10.6.100.199:8080?message=%s&numbers=%s' % (message,message_user))
+            #result = ""
+            debug = "Sending user message: '%s' to number: %s " % (message,message_user.number)
+            print("Sending user message: '%s' to number: %s with result: %s" % (message,message_user,result))
+            return render_template('admin.html',debug=debug,admin=True,phone_dict=phone_list)
+
+        if tmp_group != "":
+            if tmp_group == "BR":
+                m_group = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(alert_on_beam_up=1).all()
+            if tmp_group == "BD":
+                m_group = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(alert_on_beam_down=1).all()
+            if tmp_group == "BLAM":
+                m_group = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(alert_on_blam=1).all()
+            if tmp_group == "FSM":
+                m_group = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(alert_on_fsm=1).all()
+
+            #for m in m_group:
+            message_group = str(m_group).replace("',), (u'",",").strip("'[(u,)]")
+
+            result = requests.post('http://10.6.100.199:8080?message=%s&numbers=%s' % (message,message_group))
+            #result = ""
+            debug = "Sending group message: '%s' to numbers: %s " % (message,tmp_group)
+            print("Sending group message: '%s' to numbers: %s with result: %s" % (message,tmp_group,result))
+            return render_template('admin.html',debug=debug,admin=True,phone_dict=phone_list)
 
 
-    phone_list = AlertsSubscriberData.query.filter_by(active = 1).order_by(AlertsSubscriberData.name).all()
     #subscriber = AlertsSubscriberData.query.filter_by(number = phone).first()
     debug = ""
     return render_template('admin.html',debug=debug,admin=True,phone_dict=phone_list)
