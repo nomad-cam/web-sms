@@ -235,18 +235,19 @@ def options():
 
         if tmp_group != "":
             if tmp_group == "BR":
-                m_group = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(alert_on_beam_up=1).all()
+                m_group = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(alert_on_beam_up=1,active=1).all()
             if tmp_group == "BD":
-                m_group = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(alert_on_beam_down=1).all()
+                m_group = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(alert_on_beam_down=1,active=1).all()
             if tmp_group == "BLAM":
-                m_group = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(alert_on_blam=1).all()
+                m_group = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(alert_on_blam=1,active=1).all()
             if tmp_group == "FSM":
-                m_group = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(alert_on_fsm=1).all()
+                m_group = AlertsSubscriberData.query.with_entities(AlertsSubscriberData.number).filter_by(alert_on_fsm=1,active=1).all()
 
             #for m in m_group:
             message_group = str(m_group).replace("',), (u'",",").strip("'[(u,)]")
 
             result = requests.post('http://10.6.100.199:8080?message=%s&numbers=%s' % (message,message_group))
+
             #result = ""
             debug = "Sending group message: '%s' to numbers: %s " % (message,tmp_group)
             print("Sending group message: '%s' to numbers: %s with result: %s" % (message,tmp_group,result))
