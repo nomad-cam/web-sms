@@ -218,6 +218,7 @@ def options():
             return render_template('admin.html',debug=debug,admin=True,phone_dict=phone_list)
 
         if single_phone != "":
+            single_phone = str(single_phone).strip("(u',)")
             result = requests.post('http://10.6.100.199:8080?message=%s&numbers=%s' % (message,single_phone))
             #result = ""
             debug = "Sending single message: '%s' to number: %s " % (message,single_phone)
@@ -225,9 +226,10 @@ def options():
             return render_template('admin.html',debug=debug,admin=True,phone_dict=phone_list)
 
         if tmp_user != "":
+            message_user = str(message_user).strip("(u',)")
             result = requests.post('http://10.6.100.199:8080?message=%s&numbers=%s' % (message,message_user))
             #result = ""
-            debug = "Sending user message: '%s' to number: %s " % (message,message_user.number)
+            debug = "Sending user message: '%s' to number: %s " % (message,message_user)
             print("Sending user message: '%s' to number: %s with result: %s" % (message,message_user,result))
             return render_template('admin.html',debug=debug,admin=True,phone_dict=phone_list)
 
